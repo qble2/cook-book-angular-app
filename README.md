@@ -1,27 +1,26 @@
-# CookBookApp
+# Cook Book Angular App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+An [Angular](https://angular.io) web application that consumes the REST API found [here.](https://github.com/qble2/cook-book-spring-app)
 
-## Development server
+## Built with:
+- [Angular 14](https://angular.io)
+- [Angular Material](https://material.angular.io)
+- [RxJS](https://rxjs.dev)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Screenshots
+![cook-book-angular-app-screenshot-1](https://user-images.githubusercontent.com/76587083/220047288-59b53eae-cac4-44b4-b4ea-d6d5ee1619d5.png)  
 
-## Code scaffolding
+![cook-book-angular-app-screenshot-2](https://user-images.githubusercontent.com/76587083/220047291-afb16296-ba47-4369-ae29-62823bd85f46.png)  
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![cook-book-angular-app-screenshot-3](https://user-images.githubusercontent.com/76587083/220047295-08fbef6c-436d-46d9-864b-4fb9b37132e6.png)  
 
-## Build
+![cook-book-angular-app-screenshot-4](https://user-images.githubusercontent.com/76587083/220047297-69e1b641-ed17-4b64-ac28-4dbe6a3173e5.png)  
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![cook-book-angular-app-screenshot-5](https://user-images.githubusercontent.com/76587083/220047299-c496d6d5-eecc-4f8c-8191-bb33d14b25ca.png)  
 
-## Running unit tests
+![cook-book-angular-app-screenshot-6](https://user-images.githubusercontent.com/76587083/220047303-4652e24a-0cc6-4cac-9730-c39766b88c50.png)  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![cook-book-angular-app-screenshot-7](https://user-images.githubusercontent.com/76587083/220047306-5cd5c1a4-df7c-40c3-8651-7df2823a3c7c.png)  
 
-## Running end-to-end tests
+![cook-book-angular-app-screenshot-8](https://user-images.githubusercontent.com/76587083/220047307-102cba18-7a2c-4a26-95bd-5cc041ba08b4.png)  
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
