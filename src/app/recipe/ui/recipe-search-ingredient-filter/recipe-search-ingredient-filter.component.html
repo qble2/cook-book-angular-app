@@ -1,0 +1,19 @@
+<div
+  style="
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: baseline;
+  "
+>
+  <span>{{ ingredient.name }}</span>
+  <button
+    (click)="removeIngredient(ingredient)"
+    mat-mini-fab
+    color="accent"
+    type="button"
+  >
+    <mat-icon>delete_forever</mat-icon>
+  </button>
+</div>

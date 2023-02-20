@@ -1,0 +1,16 @@
+<div class="page">
+  <app-header [isHeaderDrawerExpanded]="isHeaderDrawerExpanded">
+    <ng-content
+      header-title
+      select="[page-header-title]"
+    ></ng-content>
+    <ng-content
+      header-drawer
+      select="[page-header-drawer]"
+    ></ng-content>
+  </app-header>
+
+  <div class="page-content">
+    <ng-content select="[page-content]"></ng-content>
+  </div>
+</div>

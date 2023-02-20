@@ -1,0 +1,8 @@
+<div class="recipe-review">
+  <mat-label class="color-gray font-italic">
+    By {{ review.author?.username }} on
+    {{ review.reviewDate | date: "dd/MM/yyyy, HH:mm:ss" }}
+  </mat-label>
+  <div>{{ review.rating }} stars</div>
+  <div>{{ review.comment }}</div>
+</div>

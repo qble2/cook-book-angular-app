@@ -1,0 +1,50 @@
+<!-- <mat-form-field [formGroup]="parentForm" appearance="fill"> -->
+<mat-form-field appearance="fill">
+  <mat-label>{{ label }}</mat-label>
+  <!-- (removed)="onChipRemoved(i)" -->
+  <!-- <mat-chip-list #chipList aria-label="chip selection" [formControlName]="parentFormControlName"> -->
+  <mat-chip-list
+    #chipList
+    aria-label="chip selection"
+    [formControl]="parentFormControl"
+  >
+    <!-- *ngFor="let chip of parentForm.controls[parentFormControlName].value; let i = index" -->
+    <mat-chip
+      *ngFor="
+        let chip of parentFormControl.value | basicSorterPipe;
+        let i = index
+      "
+      disableRipple
+      class="primary-color-chip"
+      (removed)="onChipRemoved(chip)"
+    >
+      {{ chip }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input
+      #chipInput
+      [formControl]="chipAutocompleteFormControl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      placeholder="{{ placeholder }}"
+    />
+  </mat-chip-list>
+
+  <!-- [displayWith]="displayFn" -->
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onChipOptionSelected($event)"
+  >
+    <mat-option
+      *ngFor="let availableChip of filteredAvailableChips$ | async"
+      [value]="availableChip"
+    >
+      {{ availableChip }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="parentFormControl?.errors?.['required']">
+    You must add at least 1 tag
+  </mat-error>
+</mat-form-field>

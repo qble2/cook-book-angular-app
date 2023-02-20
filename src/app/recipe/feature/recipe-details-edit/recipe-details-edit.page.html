@@ -1,0 +1,250 @@
+<app-page>
+  <div page-header-title>Edit recipe</div>
+  <div page-header-drawer>Edit recipe page-header-drawer</div>
+
+  <div page-content>
+    <div class="recipe-details-container-grid">
+      <div
+        class="recipe-details-grid card"
+        [ngClass]="'floating-' + updateRecipeForm.status"
+      >
+        <!-- left page -->
+        <div class="recipe-details-read-only-properties">
+          <app-recipe-details-header
+            [recipe]="recipe"
+            [isEditMode]="true"
+            [isDisabled]="!isUnsubmittedFormChanges"
+            (saveRecipeEvent)="onSaveRecipeEvent()"
+          ></app-recipe-details-header>
+
+          <span
+            *ngIf="recipe.author"
+            class="color-gray font-italic"
+          >
+            Created by {{ recipe.author.username }}
+            <ng-container *ngIf="recipe.createdAt">
+              on {{ recipe.createdAt | date : "dd/MM/yyyy, HH:mm:ss" }}
+            </ng-container>
+          </span>
+          <div
+            *ngIf="recipe.editedAt"
+            class="color-gray font-italic"
+          >
+            Updated {{ timeElapsedSinceLastEdit }}
+          </div>
+          <div *ngIf="recipe.averageRating !== undefined">
+            Average rating: {{ recipe.averageRating }}
+          </div>
+        </div>
+
+        <form
+          [formGroup]="updateRecipeForm"
+          class="recipe-details-update-recipe-form"
+        >
+          <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input
+              matInput
+              formControlName="description"
+              type="text"
+              name="description"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Servings</mat-label>
+            <input
+              matInput
+              formControlName="servings"
+              type="number"
+              name="servings"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Preparation time</mat-label>
+            <input
+              matInput
+              formControlName="preparationTime"
+              type="number"
+              name="preparationTime"
+            />
+            <span matSuffix>&nbsp;minutes</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Cooking time</mat-label>
+            <input
+              matInput
+              formControlName="cookingTime"
+              type="text"
+              name="cookingTime"
+            />
+            <span matSuffix>&nbsp;minutes</span>
+          </mat-form-field>
+
+          <app-chip-list
+            class="recipe-details-tags"
+            label="Tags"
+            placeholder="New tag..."
+            [parentFormControl]="$any(updateRecipeForm).controls['tags']"
+            [availableChips]="availableTags"
+            [selectedChips]="recipe.tags"
+          ></app-chip-list>
+
+          <!-- update recipe form actions -->
+          <div class="recipe-details-update-recipe-form-actions">
+            <!-- class="primary-color-button width-100" -->
+            <button
+              (click)="submitUpdateRecipeForm()"
+              mat-raised-button
+              color="primary"
+              type="button"
+              [disabled]="
+                !isUnsubmittedFormChanges ||
+                !updateRecipeForm.valid ||
+                (loadingService.loading$ | async)
+              "
+            >
+              <mat-icon>update</mat-icon>
+              Update
+            </button>
+            <button
+              (click)="undoUpdateRecipeForm()"
+              [disabled]="!isUnsubmittedFormChanges"
+              mat-raised-button
+              class="accent-background-color width-100"
+            >
+              <!-- <mat-icon>undo</mat-icon> -->
+              Cancel
+            </button>
+          </div>
+        </form>
+
+        <!-- recipe.ingredients -->
+        <div class="recipe-details-ingredients">
+          <mat-label class="recipe-details-section-title">
+            Ingredients
+          </mat-label>
+          <app-recipe-ingredient
+            *ngFor="let ingredient of recipe.ingredients"
+            [ingredient]="ingredient"
+            [isEditMode]="true"
+            [isMonitorChanges]="true"
+            [isRemovable]="true"
+            (ingredientModifiedEvent)="onIngredientModifiedEvent($event)"
+            (ingredientRemovedEvent)="onIngredientRemovedEvent($event)"
+          ></app-recipe-ingredient>
+
+          <!-- add new ingredient -->
+          <app-recipe-add-ingredient
+            [excludedIngredients]="recipe.ingredients"
+            (ingredientAddedEvent)="onIngredientAddedEvent($event)"
+          ></app-recipe-add-ingredient>
+        </div>
+
+        <!-- recipe.reviews -->
+        <div class="recipe-details-reviews">
+          <span class="recipe-details-section-title">
+            Reviews
+            <span *ngIf="recipe.averageRating !== undefined">
+              ( Average rating: {{ recipe.averageRating }} )
+            </span>
+          </span>
+          <app-recipe-review-list
+            *ngIf="recipe.id"
+            [recipeId]="recipe.id"
+            [recipeAuthorId]="recipe.author?.id!"
+          ></app-recipe-review-list>
+        </div>
+
+        <div class="recipe-details-vertical-divider"></div>
+
+        <!-- right page -->
+        <div class="recipe-thumbnail">
+          <ng-container
+            *ngIf="recipe.thumbnail; else missingRecipeThumbnailPlaceholder"
+          >
+            <!-- TODO BKE -->
+            <img
+              src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F43%2F2022%2F04%2F22%2F17981-one-bowl-chocolate-cake-iii-Dianne-1x1-1.jpg&w=272&h=272&c=sc&poi=%5B620%2C880%5D&q=60"
+              style="border-radius: 10%"
+            />
+          </ng-container>
+          <ng-template #missingRecipeThumbnailPlaceholder>
+            <!-- <mat-icon class="recipe-missing-thumbnail-placeholder">image</mat-icon> -->
+            <img
+              src="assets/image/image_moccasin_48dp.svg"
+              width="100%"
+              height="100%"
+            />
+            <!-- <mat-icon>image</mat-icon> -->
+          </ng-template>
+        </div>
+
+        <!-- recipe.instructions -->
+        <div class="recipe-details-instructions">
+          <mat-label class="recipe-details-section-title">
+            Instructions
+          </mat-label>
+          <div
+            *ngFor="let instruction of recipe.instructions; let i = index"
+            class="recipe-instruction"
+          >
+            <mat-form-field appearance="fill">
+              <input
+                matInput
+                type="text"
+                name="Instruction"
+                [value]="instruction"
+              />
+            </mat-form-field>
+            <div style="display: flex; flex-direction: row; gap: 10px">
+              <button
+                (click)="updateInstruction(i, instruction)"
+                mat-fab
+                color="primary"
+                type="button"
+              >
+                <mat-icon>update</mat-icon>
+              </button>
+              <button
+                (click)="removeInstruction(i, instruction)"
+                mat-fab
+                color="accent"
+                type="button"
+              >
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+            </div>
+          </div>
+          <!-- add new instruction -->
+          <div class="recipe-instruction-add">
+            <mat-form-field appearance="fill">
+              <mat-label>Instruction</mat-label>
+              <input
+                type="text"
+                aria-label="Instruction"
+                matInput
+                [formControl]="newInstructionFormControl"
+                #instruction
+              />
+            </mat-form-field>
+            <button
+              mat-fab
+              color="primary"
+              type="button"
+              (click)="addInstruction(instruction.value)"
+              [disabled]="!newInstructionFormControl.valid"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- close button -->
+        <app-close-card-button></app-close-card-button>
+      </div>
+    </div>
+  </div>
+</app-page>

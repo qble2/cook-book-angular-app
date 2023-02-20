@@ -1,0 +1,256 @@
+<form
+  [formGroup]="recipeSearchForm"
+  (ngSubmit)="submitRecipeSearchForm()"
+  class="recipe-filters-form-grid"
+>
+  <div class="recipe-filters-form-recipe-tags">
+    <!-- <h3>Tags</h3> -->
+
+    <ng-container
+      formArrayName="tags"
+      *ngFor="let tagFormControl of tagsFormArray.controls; let i = index"
+    >
+      <mat-checkbox [formControlName]="i">
+        {{ availableTags[i] }}
+      </mat-checkbox>
+    </ng-container>
+  </div>
+
+  <div class="recipe-filters-form-recipe-properties">
+    <!-- <h3>Recipe</h3> -->
+
+    <mat-slide-toggle
+      *ngIf="authService.isLoggedIn()"
+      formControlName="isUserRecipes"
+      class="recipe-filters-form-recipe-user-recipes"
+    >
+      My recipes
+    </mat-slide-toggle>
+
+    <mat-slide-toggle
+      *ngIf="authService.isLoggedIn()"
+      formControlName="isUserFavoriteRecipes"
+      class="recipe-filters-form-recipe-favorite-recipes"
+    >
+      Favorite recipes
+    </mat-slide-toggle>
+
+    <mat-form-field
+      appearance="fill"
+      class="recipe-filters-form-recipe-author"
+    >
+      <mat-label>Author</mat-label>
+      <input
+        matInput
+        #author
+        formControlName="author"
+        name="author"
+      />
+      <button
+        *ngIf="recipeSearchForm.controls['author'].value"
+        [disabled]="author.disabled"
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="recipeSearchForm.controls['author'].reset()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      class="recipe-filters-form-recipe-name"
+    >
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        #name
+        formControlName="name"
+        name="name"
+      />
+      <button
+        *ngIf="recipeSearchForm.controls['name'].value"
+        [disabled]="name.disabled"
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="recipeSearchForm.controls['name'].reset()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      class="recipe-filters-form-recipe-description"
+    >
+      <mat-label>Description</mat-label>
+      <input
+        matInput
+        #description
+        formControlName="description"
+        name="description"
+      />
+      <button
+        *ngIf="recipeSearchForm.controls['description'].value"
+        [disabled]="description.disabled"
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="recipeSearchForm.controls['description'].reset()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      class="recipe-filters-form-recipe-average-rating"
+    >
+      <mat-label>Average rating</mat-label>
+      <span matPrefix>>= &nbsp;</span>
+      <input
+        matInput
+        #averageRating
+        type="number"
+        formControlName="averageRating"
+        name="averageRating"
+      />
+      <button
+        *ngIf="recipeSearchForm.controls['averageRating'].value"
+        [disabled]="averageRating.disabled"
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="recipeSearchForm.controls['averageRating'].reset()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      class="recipe-filters-form-recipe-minimum-servings"
+    >
+      <mat-label>Servings</mat-label>
+      <span matPrefix>>= &nbsp;</span>
+      <input
+        matInput
+        #minimumServings
+        type="number"
+        formControlName="minimumServings"
+        name="minimumServings"
+      />
+      <button
+        *ngIf="recipeSearchForm.controls['minimumServings'].value"
+        [disabled]="minimumServings.disabled"
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="recipeSearchForm.controls['minimumServings'].reset()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      class="recipe-filters-form-recipe-maximum-preparation-time"
+    >
+      <mat-label>Preparation time</mat-label>
+      <span matPrefix>&#60;&#61;&nbsp;</span>
+      <input
+        matInput
+        #maximumPreparationTime
+        type="number"
+        formControlName="maximumPreparationTime"
+        name="maximumPreparationTime"
+      />
+      <button
+        *ngIf="recipeSearchForm.controls['maximumPreparationTime'].value"
+        [disabled]="maximumPreparationTime.disabled"
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="recipeSearchForm.controls['maximumPreparationTime'].reset()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <span matSuffix>&nbsp;minutes</span>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      class="recipe-filters-form-recipe-maximum-cooking-time"
+    >
+      <mat-label>Cooking time</mat-label>
+      <span matPrefix>&#60;&#61;&nbsp;</span>
+      <input
+        matInput
+        #maximumCookingTime
+        type="number"
+        formControlName="maximumCookingTime"
+        name="maximumCookingTime"
+      />
+      <button
+        *ngIf="recipeSearchForm.controls['maximumCookingTime'].value"
+        [disabled]="maximumCookingTime.disabled"
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="recipeSearchForm.controls['maximumCookingTime'].reset()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <span matSuffix>&nbsp;minutes</span>
+    </mat-form-field>
+  </div>
+
+  <!-- Ingredients -->
+  <div class="recipe-filters-form-recipe-ingredients">
+    <!-- <h3>Ingredients</h3> -->
+
+    <ng-container
+      formArrayName="ingredients"
+      *ngFor="
+        let ingredientFormControl of ingredientsFormArray.controls;
+        let i = index
+      "
+    >
+      <app-recipe-search-ingredient-filter
+        [ingredient]="ingredientFormControl.value"
+        (ingredientRemovedEvent)="onIngredientRemovedEvent($event, i)"
+      ></app-recipe-search-ingredient-filter>
+    </ng-container>
+
+    <app-ingredient-autocomplete-form-field
+      [parentFormControl]="ingredientAutocompleteFormControl"
+      [isRequired]="false"
+      [excludedIngredients]="recipeSearchForm.controls['ingredients'].value"
+      (ingredientSelectedEvent)="onIngredientSelectedEvent($event)"
+    ></app-ingredient-autocomplete-form-field>
+  </div>
+
+  <div class="recipe-filters-form-actions">
+    <!-- class="primary-color-button width-80" -->
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!recipeSearchForm.valid || (loadingService.loading$ | async)"
+    >
+      Apply
+    </button>
+    <!-- class="accent-background-color width-80" -->
+    <button
+      (click)="resetSearchRecipeForm()"
+      mat-raised-button
+      color="accent"
+      type="button"
+      [disabled]="loadingService.loading$ | async"
+    >
+      Reset
+    </button>
+  </div>
+</form>

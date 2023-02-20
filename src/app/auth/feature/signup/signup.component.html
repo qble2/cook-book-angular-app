@@ -1,0 +1,111 @@
+<app-page>
+  <div page-header-title>Sign up</div>
+  <div page-header-drawer>Sign up page-header-drawer</div>
+
+  <div page-content>
+    <div class="signup-container-grid">
+      <form
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+        class="signup-form card"
+        [ngClass]="'floating-' + signupForm.status"
+      >
+        <h2>Create your account</h2>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            name="username"
+          />
+          <mat-error
+            *ngIf="signupForm.controls['username']?.errors?.['required']"
+          >
+            You must enter a value
+          </mat-error>
+        </mat-form-field>
+
+        <app-password-form-field
+          formControlName="password"
+          label="Password"
+          required
+          minlength="4"
+        >
+          <ng-template #additionalValidationErrors></ng-template>
+        </app-password-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>First name</mat-label>
+          <input
+            matInput
+            formControlName="firstName"
+            name="firstName"
+          />
+          <mat-error
+            *ngIf="signupForm.controls['firstName']?.errors?.['required']"
+          >
+            You must enter a value
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Last name</mat-label>
+          <input
+            matInput
+            formControlName="lastName"
+            name="lastName"
+          />
+          <mat-error
+            *ngIf="signupForm.controls['lastName']?.errors?.['required']"
+          >
+            You must enter a value
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            name="email"
+          />
+          <mat-error *ngIf="signupForm.controls['email']?.errors?.['required']">
+            You must enter a value
+          </mat-error>
+          <mat-error *ngIf="signupForm.controls['email']?.errors?.['email']">
+            Not a valid email
+          </mat-error>
+        </mat-form-field>
+
+        <!-- class="primary-color-button" -->
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!signupForm.valid || (loadingService.loading$ | async)"
+        >
+          Sign up
+        </button>
+
+        <app-server-response-error-details
+          [error]="serverResponseError"
+        ></app-server-response-error-details>
+
+        <div style="margin-top: 20px">
+          <span>
+            Have an account already?
+            <span
+              class="pseudo-anchor"
+              (click)="navigationService.navigateToLogin()"
+            >
+              Log in
+            </span>
+          </span>
+        </div>
+
+        <!-- close button -->
+        <app-close-card-button></app-close-card-button>
+      </form>
+    </div>
+  </div>
+</app-page>

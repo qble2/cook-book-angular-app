@@ -1,0 +1,14 @@
+<div class="header mat-elevation-z6">
+  <!-- <ng-content></ng-content> -->
+
+  <div class="header-title">
+    <ng-content select="[header-title]"></ng-content>
+  </div>
+
+  <div
+    class="header-drawer"
+    [ngStyle]="{ display: isHeaderDrawerExpanded ? 'initial' : 'none' }"
+  >
+    <ng-content select="[header-drawer]"></ng-content>
+  </div>
+</div>

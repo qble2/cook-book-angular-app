@@ -1,0 +1,17 @@
+<ng-container *ngIf="error">
+  <div class="server-response-error-container">
+    <!-- <mat-error> -->
+    {{ error.message }}
+    <!-- </mat-error> -->
+    <!-- <ng-container *ngIf="error?.details">
+      <mat-error *ngFor="let detail of error.details">
+        {{ detail }}
+      </mat-error>
+    </ng-container> -->
+    <ul *ngIf="error?.details">
+      <li *ngFor="let detail of error.details">
+        {{ detail }}
+      </li>
+    </ul>
+  </div>
+</ng-container>

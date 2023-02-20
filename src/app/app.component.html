@@ -1,0 +1,92 @@
+<!-- making scrollbar effective only after the toolbar -->
+<div style="display: flex; flex-direction: column; height: 100vh">
+  <!-- color="primary" -->
+  <mat-toolbar class="navbar mat-elevation-z6">
+    <mat-toolbar-row>
+      <button
+        mat-icon-button
+        (click)="sidenav.toggle()"
+      >
+        <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+        <mat-icon *ngIf="sidenav.opened">menu_open</mat-icon>
+      </button>
+
+      <button
+        mat-button
+        [routerLink]="['/']"
+      >
+        <h1>Cook Book</h1>
+      </button>
+      <mat-error *ngIf="(appInitService.initialized$ | async) === false">
+        (App init: failed)
+      </mat-error>
+      <mat-error *ngIf="(serverStatusService.online$ | async) === false">
+        (REST API server: offline)
+      </mat-error>
+      <ng-container
+        *ngIf="
+          (appInitService.initialized$ | async) === false ||
+          (serverStatusService.online$ | async) === false
+        "
+      >
+        <button
+          mat-icon-button
+          (click)="reloadPage()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </ng-container>
+      <span class="menu-spacer"></span>
+
+      <span class="flex-expand"></span>
+
+      <div
+        *ngIf="authService.isLoggedIn(); else unauthenticated"
+        style="display: flex; flex-direction: row; gap: 10px"
+      >
+        <span>
+          Logged in as ( {{ authService.getLoggedInUser()?.username }} )
+        </span>
+        <!-- class="accent-background-color width-80" -->
+        <button
+          (click)="signOut()"
+          mat-raised-button
+          color="accent"
+        >
+          Sign out
+        </button>
+      </div>
+      <ng-template #unauthenticated>
+        <div style="display: flex; flex-direction: row; gap: 10px">
+          <!-- class="primary-color-button width-80" -->
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="navigationService.navigateToLogin()"
+          >
+            Log in
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="navigationService.navigateToSignup()"
+          >
+            Sign up
+          </button>
+        </div>
+      </ng-template>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav>mat-sidenav</mat-sidenav>
+    <mat-sidenav-content>
+      <div
+        class="main-container"
+        [ngClass]="{ loading: loadingService.loading$ | async }"
+      >
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

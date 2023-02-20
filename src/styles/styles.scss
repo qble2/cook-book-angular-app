@@ -1,0 +1,647 @@
+@use "@angular/material" as mat;
+
+@import "@angular/material/theming";
+@import "themes.scss";
+
+:root {
+  --header-toolbar-height: 64px;
+  --component-header-height: 64px;
+
+  --powderblue-color: powderblue; // powderblue
+  --teal-color: teal; // teal
+  --tealblue-color: #367588; // tealblue
+  --moccasin-color: moccasin; // moccasin
+  --moccasin-color-rgb: 255, 228, 181; // moccasin
+  // --moccasin-color-low-alpha: rgba(var(--moccasin-color-rgb), 0.12); // moccasin
+  --palevioletred-color: palevioletred; // palevioletred
+
+  --primary-color: var(--teal-color);
+  --secondary-color: var(--tealblue-color);
+  --tertiary-color: var(--powderblue-color);
+  --accent-color: var(--palevioletred-color);
+
+  --default-text-color: white;
+  --default-hover-text-color: var(--moccasin-color);
+  --default-focused-text-color: var(--moccasin-color);
+  --default-selected-text-color: var(--moccasin-color);
+  --default-floating-text-color: var(--powderblue-color);
+
+  --default-border-color: var(--moccasin-color);
+  --default-hover-border-color: var(--moccasin-color);
+  --default-focused-border-color: var(--moccasin-color);
+
+  --default-checked-slide-toggle-button-background-color: rgba(
+    var(--moccasin-color-rgb),
+    0.5
+  );
+  --default-checked-slide-toggle-button-color: var(--moccasin-color);
+}
+
+:host {
+  width: 100%;
+  height: 100%;
+}
+
+// Hide Arrows From Input Number for: Chrome, Safari, Edge, Opera
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// // Hide Arrows From Input Number for: Firefox
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+::-webkit-scrollbar {
+  // background-color: #202324;
+  background-color: var(--tealblue-color);
+  color: #aba499;
+  // width: 1em;
+}
+// ::-webkit-scrollbar-corner {
+//     background-color: #181a1b;
+// }
+::-webkit-scrollbar-thumb {
+  // background-color: #454a4d;
+  background-color: var(--powderblue-color);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  // box-sizing: border-box;
+}
+// *,
+// *:before,
+// *:after {
+//   box-sizing: inherit;
+// }
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  user-select: none;
+  color: var(--default-text-color) !important;
+}
+
+img {
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+// default value is 64px
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  height: var(--header-toolbar-height);
+}
+
+// by default mat form fields have a fixed width of 180px, which does not pair up well with flex when shrinking the viewport
+.mat-form-field {
+  width: 100%;
+  display: block;
+  flex: 1 1 0;
+}
+
+.mat-form-field .mat-form-field-infix {
+  width: 100%;
+  min-width: 3em;
+}
+
+.mat-form-field-empty.mat-form-field-label {
+  // color: var(--default-text-color) !important; // !important is needed here
+  color: var(
+    --default-floating-text-color
+  ) !important; // !important is needed here
+}
+.mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label {
+  color: rgba(255, 255, 255, 0.5) !important; // !important is needed here
+}
+
+input.mat-input-element {
+  color: white;
+}
+
+.mat-input-element {
+  caret-color: white;
+}
+
+// disabled form controls
+// .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
+//     background-color: initial;
+// }
+
+// .mat-input-element:disabled,
+// .mat-select-disabled .mat-select-value {
+//     color: var(--default-text-color) !important;
+// }
+
+// .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+//     visibility: hidden;
+// }
+
+// .mat-form-field-appearance-fill.mat-form-field-disabled .mat-hint {
+//     visibility: hidden;
+// }
+//
+
+.mat-form-field-appearance-outline.mat-form-field-invalid
+  .mat-form-field-outline-thick,
+.mat-form-field.mat-form-field-invalid .mat-form-field-label,
+.mat-error {
+  color: var(--palevioletred-color) !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: var(--default-focused-text-color) !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: var(--default-focused-border-color) !important;
+}
+.mat-focused .mat-form-field-underline .mat-form-field-ripple {
+  background-color: var(--default-focused-border-color) !important;
+}
+
+// .mat-raised-button {
+//   filter: brightness(1.1);
+// }
+// .mat-raised-button:hover {
+//   filter: brightness(1.3);
+// }
+// .mat-icon-button:hover {
+//   filter: brightness(1.3);
+// }
+
+.mat-button-toggle-group {
+  // box-shadow: none;
+}
+.mat-button-toggle {
+  // background-color: mat-color($primary);
+  // color: mat-color($primary, default-contrast);
+  // background-color: var(--teal-color);
+  background-color: var(--tealblue-color);
+  color: var(--default-text-color);
+
+  // border: none !important;
+  border: 1px solid var(--default-border-color) !important;
+}
+.mat-button-toggle-checked {
+  // background-color: mat-color($accent);
+  // color: mat-color($accent, default-contrast);
+  background-color: var(--teal-color);
+  // background-color: var(--tealblue-color);
+  color: var(--default-text-color) !important;
+
+  border: 1px solid var(--default-border-color) !important;
+}
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  text-align: start;
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: var(--default-checked-slide-toggle-button-background-color);
+}
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: var(--default-checked-slide-toggle-button-color);
+}
+
+.mat-checkbox:hover {
+  color: var(--default-hover-text-color);
+  .mat-checkbox-frame {
+    border-color: var(--default-hover-border-color) !important;
+  }
+}
+.mat-checkbox-checked {
+  color: var(--default-selected-text-color) !important;
+  .mat-checkbox-background {
+    background-color: var(--default-selected-text-color) !important;
+  }
+}
+
+.mat-drawer-content,
+.mat-drawer-inner-container {
+  background-color: var(--teal-color);
+}
+.page-content .mat-drawer-content,
+.page-content .mat-drawer-inner-container {
+  background-color: var(--tealblue-color);
+}
+
+/* */
+
+// .primary-color {
+//     color: mat-color($my-primary);
+// }
+// .accent-color {
+//     color: mat-color($my-accent);
+// }
+
+// do not use !important to avoid messing with disabled elements colors
+.primary-background-color {
+  background-color: var(--teal-color);
+}
+.secondary-background-color {
+  background-color: var(--tealblue-color);
+}
+.tertiary-background-color {
+  background-color: var(--powderblue-color);
+}
+.accent-background-color {
+  background-color: var(--palevioletred-color);
+}
+
+.primary-color {
+  color: var(--teal-color);
+}
+.secondary-color {
+  color: var(--tealblue-color);
+}
+.tertiary-color {
+  color: var(--powderblue-color);
+}
+.accent-color {
+  color: var(--palevioletred-color);
+}
+
+.primary-border-color {
+  border: 1px solid var(--default-border-color);
+}
+
+.filter-brightness-1-1 {
+  filter: brightness(1.1);
+}
+.filter-brightness-1-3 {
+  filter: brightness(1.3);
+}
+
+.color-gray {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.font-italic {
+  font-style: italic;
+}
+
+.flex-expand {
+  flex: 1 1 auto;
+}
+
+.width-80 {
+  width: 80px;
+}
+
+.width-100 {
+  width: 100px;
+}
+
+.pseudo-anchor {
+  color: var(--powderblue-color);
+}
+
+.pseudo-anchor:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+// do not use !important to avoid messing with disabled elements colors
+.primary-color-button {
+  background-color: var(--teal-color);
+  filter: brightness(1.1);
+}
+.secondary-color-button {
+  background-color: var(--tealblue-color);
+  filter: brightness(1.1);
+}
+.tertiary-color-button {
+  background-color: var(--powderblue-color);
+  filter: brightness(1.1);
+}
+.accent-color-button {
+  background-color: var(--palevioletred-color);
+  filter: brightness(1.1);
+}
+
+// !important is needed here
+.primary-color-chip {
+  background-color: var(--teal-color) !important;
+  border: 1px solid var(--default-border-color) !important;
+}
+
+.snackbar-error {
+  // background: indigo;
+  background: black;
+  color: var(--palevioletred-color);
+  white-space: pre-wrap; // allows line breaks
+}
+.snackbar-error button {
+  background-color: indigo;
+  color: var(--palevioletred-color) !important;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  // * {
+  //   flex: 1;
+  // }
+}
+
+.card {
+  background-color: var(--tealblue-color);
+  padding: 16px;
+
+  // tells the browser to account for any border and padding in the values you specify for an element's width and height
+  // needed to make position: sticky work correctly
+  box-sizing: border-box;
+}
+
+.floating,
+.floating-,
+.floating-VALID {
+  filter: drop-shadow(10px 10px 10px rgba($color: black, $alpha: 0.5))
+    // contrast(1.2)
+;
+}
+
+.floating-INVALID {
+  filter: drop-shadow(10px 10px 10px rgba($color: red, $alpha: 0.5))
+    // contrast(1.2)
+;
+}
+
+.signup-container-grid,
+.login-container-grid,
+.create-recipe-container-grid,
+.recipe-details-container-grid {
+  display: grid;
+  justify-content: center;
+  padding: 25px;
+}
+
+.signup-form,
+.login-form,
+.create-recipe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 500px;
+}
+
+.navbar {
+  background-color: var(--teal-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.main-container {
+  // padding will hide part of the scrollbar behind recipe-menu
+  // padding-top: var(--header-toolbar-height);
+  margin-top: var(--header-toolbar-height);
+  overflow-y: auto;
+
+  letter-spacing: 1px;
+  // background-color: mat.get-color-from-palette($my-primary, 'lighter');
+  background-color: var(--powderblue-color);
+
+  // use calc when elements position is not fixed
+  min-height: calc(
+    100vh - var(--header-toolbar-height) - var(--header-toolbar-height)
+  );
+}
+
+.recipe-missing-thumbnail-placeholder {
+  font-size: 250px;
+  width: 250px;
+  height: 250px;
+}
+
+.recipes-filters {
+  grid-area: recipes-filters;
+
+  z-index: 99; // less than header(100)
+  position: sticky;
+  top: var(--header-toolbar-height);
+  height: calc(
+    100vh - var(--header-toolbar-height)
+  ); // a height is needed to make position: sticky work
+  overflow: auto;
+}
+
+// .recipes-overview {
+//   min-height: 100%;
+
+//   display: grid;
+//   grid-template-areas:
+//     " recipes-overview-paginator-top "
+//     " recipes-overview-cards "
+//     " recipes-overview-paginator-bottom ";
+//   grid-template-columns: 1fr;
+//   grid-template-rows: min-content 1fr min-content;
+// }
+.recipes-overview {
+  min-height: 100%;
+
+  display: grid;
+  grid-template-areas:
+    " recipes-overview-left-menu-drawer   recipes-overview-left-search-drawer   recipes-overview-paginator-top    "
+    " recipes-overview-left-menu-drawer   recipes-overview-left-search-drawer   recipes-overview-cards            "
+    " recipes-overview-left-menu-drawer   recipes-overview-left-search-drawer   recipes-overview-paginator-bottom ";
+  grid-template-columns: min-content min-content 1fr;
+  grid-template-rows: min-content 1fr min-content;
+}
+
+.recipes-overview-left-menu-drawer {
+  grid-area: recipes-overview-left-menu-drawer;
+}
+.recipes-overview-left-search-drawer {
+  grid-area: recipes-overview-left-search-drawer;
+}
+
+// .mat-drawer.mat-drawer-side {
+//   width: 1200px;
+// }
+
+.recipes-overview-paginator-top {
+  grid-area: recipes-overview-paginator-top;
+}
+
+.recipes-overview-paginator-bottom {
+  grid-area: recipes-overview-paginator-bottom;
+}
+
+.recipes-overview-cards {
+  grid-area: recipes-overview-cards;
+  padding: 25px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 30px;
+}
+
+.recipe-card {
+  // relative position needed to make z-index work
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  // enough to fit the dates & humanized duration in a single line
+  flex-basis: 290px;
+
+  transition: transform 100ms ease-in;
+
+  overflow: hidden; // will hide ::before element
+}
+
+.recipe-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+}
+
+.recipe-card:hover::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255, 228, 181, 0.5),
+    transparent
+  );
+  transition: 0.5s;
+
+  left: 100%;
+}
+
+.recipe-card:hover {
+  z-index: 2;
+  outline: 2px solid var(--default-border-color);
+}
+
+.create-recipe-actions {
+  display: flex;
+  flex-direction: row;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.recipe-name {
+  font-size: 24px;
+  // font-weight: 500;
+}
+
+.recipe-thumbnail {
+  grid-area: recipe-thumbnail;
+  align-self: center;
+  justify-self: center;
+  width: 250px;
+  height: 250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.recipe-tags-read-only {
+  grid-area: recipe-tags-read-only;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.recipe-tag-read-only {
+  padding: 5px;
+  outline: 1px solid var(--default-border-color);
+  // border-radius: 5px;
+}
+
+.recipe-ingredient-form,
+.add-recipe-ingredient-form {
+  // padding: 5px;
+  padding-left: 16px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+
+  // have the baseline of their text align along a horizontal line
+  // align-items: baseline;
+}
+
+.recipe-ingredient-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.recipe-ingredient-form-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  // flex: 1;
+  // margin-left: auto;
+}
+
+.recipe-instruction,
+.recipe-instruction-add {
+  // padding: 5px;
+  padding-left: 16px;
+
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  // align-items: center;
+  gap: 10px;
+
+  // have the baseline of their text align along a horizontal line
+  // align-items: baseline;
+}
+
+.recipe-review {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+  border-bottom: 1px solid rgba(var(--moccasin-color-rgb), 0.12);
+  // border-radius: 5px;
+}
+
+.recipe-review-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  border-bottom: 1px solid rgba(var(--moccasin-color-rgb), 0.12);
+}
+
+.recipe-review-add-button {
+  display: flex;
+  flex-direction: row;
+  // justify-content: flex-end;
+  justify-content: flex-start;
+  gap: 10px;
+
+  margin-bottom: 10px;
+}
+
+.loading {
+  cursor: progress;
+}

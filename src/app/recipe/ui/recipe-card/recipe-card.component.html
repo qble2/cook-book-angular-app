@@ -1,0 +1,73 @@
+<div class="recipe-name">{{ recipe.name }}</div>
+<div
+  *ngIf="recipe.author"
+  class="color-gray font-italic"
+>
+  By {{ recipe.author.username }}
+</div>
+<div
+  *ngIf="recipe.createdAt"
+  class="color-gray font-italic"
+>
+  Created on {{ recipe.createdAt | date: "dd/MM/yyyy, HH:mm:ss" }}
+</div>
+<div
+  *ngIf="recipe.editedAt"
+  class="color-gray font-italic"
+>
+  Updated {{ timeElapsedFromNow(recipe.editedAt) }}
+</div>
+
+<div *ngIf="recipe.averageRating !== undefined">
+  Average rating: {{ recipe.averageRating }}
+</div>
+
+<div class="recipe-thumbnail">
+  <ng-container *ngIf="recipe.thumbnail; else missingRecipeThumbnail">
+    <!-- TODO BKE -->
+    <img
+      src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F43%2F2022%2F04%2F22%2F17981-one-bowl-chocolate-cake-iii-Dianne-1x1-1.jpg&w=272&h=272&c=sc&poi=%5B620%2C880%5D&q=60"
+      style="border-radius: 10%"
+    />
+  </ng-container>
+  <ng-template #missingRecipeThumbnail>
+    <!-- <mat-icon class="recipe-missing-thumbnail-placeholder">image</mat-icon> -->
+    <!-- <img src="assets/image/image_white_48dp.svg" width="250" height="250"> -->
+    <img
+      src="assets/image/image_white_48dp.svg"
+      width="100%"
+      height="100%"
+    />
+    <!-- <mat-icon>image</mat-icon> -->
+  </ng-template>
+</div>
+
+<!-- <div *ngIf="recipe.description" class="color-gray">{{recipe.description}}</div> -->
+
+<div>Servings: {{ recipe.servings }}</div>
+
+<div>
+  Preparation time:
+  <ng-container *ngIf="recipe.preparationTime">
+    {{ humanizeMinutes(recipe.preparationTime) }}
+  </ng-container>
+</div>
+
+<div>
+  Cooking time:
+  <ng-container *ngIf="recipe.cookingTime">
+    {{ humanizeMinutes(recipe.cookingTime) }}
+  </ng-container>
+</div>
+
+<div
+  *ngIf="recipe.tags"
+  class="recipe-tags-read-only"
+>
+  <div
+    *ngFor="let tag of recipe.tags"
+    class="recipe-tag-read-only"
+  >
+    {{ tag }}
+  </div>
+</div>

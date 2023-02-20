@@ -1,0 +1,96 @@
+<app-page [isHeaderDrawerExpanded]="isHeaderDrawerExpanded">
+  <div page-header-title>
+    <button
+      [disabled]="isHeaderDrawerExpanded"
+      mat-button
+      type="button"
+      (click)="searchDrawer.toggle()"
+    >
+      <mat-icon *ngIf="!searchDrawer.opened">manage_search</mat-icon>
+      <mat-icon *ngIf="searchDrawer.opened">menu_open</mat-icon>
+      Search
+    </button>
+    <a
+      [disabled]="isHeaderDrawerExpanded"
+      mat-button
+      (click)="navigationService.navigateToCreateRecipeStepper()"
+    >
+      <mat-icon>create</mat-icon>
+      Create recipe
+    </a>
+    <a
+      mat-button
+      (click)="isHeaderDrawerExpanded = !isHeaderDrawerExpanded"
+    >
+      Expand Header
+      <mat-icon *ngIf="isHeaderDrawerExpanded">expand_less</mat-icon>
+      <mat-icon *ngIf="!isHeaderDrawerExpanded">expand_more</mat-icon>
+    </a>
+  </div>
+
+  <!-- using the ngIf directive would re-render the element (thus triggering events) everytime the element is expanded/shown -->
+  <div page-header-drawer></div>
+
+  <div
+    page-content
+    style="height: 100%"
+  >
+    <div class="recipes-overview">
+      <!-- Angular team: Note that you should use autosize at your own risk, because it could cause performance issues -->
+      <mat-drawer-container class="recipes-overview-left-search-drawer">
+        <mat-drawer
+          #searchDrawer
+          mode="side"
+        >
+          <app-recipe-search
+            (recipesFiltersChangedEvent)="onRecipeFiltersChangedEvent($event)"
+          ></app-recipe-search>
+        </mat-drawer>
+      </mat-drawer-container>
+
+      <!-- *ngIf="
+          recipesPage !== undefined &&
+          recipesPage.totalPages !== undefined &&
+          recipesPage.totalPages > 1
+        " -->
+      <mat-paginator
+        class="recipes-overview-paginator-top"
+        [pageIndex]="recipesPage?.currentPage"
+        [pageSize]="pageEvent ? pageEvent.pageSize : 5"
+        [length]="recipesPage?.totalElements"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+        (page)="onPageEvent($event)"
+      ></mat-paginator>
+
+      <div class="recipes-overview-cards">
+        <!-- [routerLink]="
+            authService.isLoggedIn() &&
+            authService.getLoggedInUser()?.id === this.recipe.author?.id
+              ? '/recipes/' + recipe.id + '/edit'
+              : '/recipes/' + recipe.id" -->
+        <app-recipe-card
+          *ngFor="let recipe of recipesPage?.recipes"
+          [recipe]="recipe"
+          class="recipe-card card floating"
+          (click)="navigationService.navigateToRecipeDetails(recipe)"
+        ></app-recipe-card>
+      </div>
+
+      <!-- *ngIf="
+          recipesPage !== undefined &&
+          recipesPage.totalPages !== undefined &&
+          recipesPage.totalPages > 1
+        " -->
+      <mat-paginator
+        class="recipes-overview-paginator-bottom"
+        [pageIndex]="recipesPage?.currentPage"
+        [pageSize]="pageEvent ? pageEvent.pageSize : 5"
+        [length]="recipesPage?.totalElements"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+        (page)="onPageEvent($event)"
+      ></mat-paginator>
+    </div>
+  </div>
+</app-page>

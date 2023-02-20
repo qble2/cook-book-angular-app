@@ -1,0 +1,82 @@
+<form
+  *ngIf="isPostingReviewAllowed"
+  [formGroup]="reviewForm"
+  (ngSubmit)="onSubmit()"
+  class="recipe-review-add-form"
+>
+  <ng-container *ngIf="userReview">
+    <span>
+      Your review was submitted on
+      {{ userReview.reviewDate | date : "dd/MM/yyyy, HH:mm:ss" }}
+    </span>
+  </ng-container>
+  <mat-form-field appearance="fill">
+    <mat-label>Rating</mat-label>
+    <input
+      matInput
+      formControlName="rating"
+      type="number"
+      name="rating"
+    />
+    <mat-error *ngIf="reviewForm.controls['rating']?.errors?.['required']">
+      You must enter a value
+    </mat-error>
+    <mat-error *ngIf="reviewForm.controls['rating']?.errors?.['min']">
+      rating minimum value is {{ minRatingAllowed }}
+    </mat-error>
+    <mat-error *ngIf="reviewForm.controls['rating']?.errors?.['max']">
+      rating maximum value is {{ maxRatingAllowed }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Leave a comment</mat-label>
+    <textarea
+      matInput
+      formControlName="comment"
+      name="comment"
+    ></textarea>
+    <mat-error *ngIf="reviewForm.controls['comment']?.errors?.['required']">
+      You must enter a value
+    </mat-error>
+  </mat-form-field>
+
+  <div class="recipe-review-add-button">
+    <!-- class="primary-color-button width-100" -->
+    <button
+      mat-raised-button
+      color="primary"
+      class="width-100"
+      type="submit"
+      [disabled]="!reviewForm.valid || (loadingService.loading$ | async)"
+    >
+      <ng-container *ngIf="!userReview">
+        <mat-icon>rate_review</mat-icon>
+        Post
+      </ng-container>
+      <ng-container *ngIf="userReview">
+        <mat-icon>update</mat-icon>
+        Update
+      </ng-container>
+    </button>
+    <button
+      *ngIf="userReview"
+      mat-raised-button
+      (click)="deleteReview()"
+      color="accent"
+      class="width-100"
+      type="button"
+      [disabled]="loadingService.loading$ | async"
+    >
+      <mat-icon>delete_forever</mat-icon>
+      Delete
+    </button>
+  </div>
+</form>
+
+<ng-container *ngFor="let review of reviews">
+  <app-recipe-review-details
+    *ngIf="review.author?.id !== authService.getLoggedInUser()?.id"
+    [review]="review"
+  ></app-recipe-review-details>
+</ng-container>

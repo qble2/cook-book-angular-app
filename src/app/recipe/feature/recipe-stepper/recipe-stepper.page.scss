@@ -1,0 +1,12 @@
+.create-recipe-stepper-container-grid {
+  display: grid;
+  justify-content: center;
+  padding: 25px;
+}
+
+.create-recipe-stepper-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 800px;
+}

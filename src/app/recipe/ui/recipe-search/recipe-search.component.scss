@@ -1,0 +1,92 @@
+.recipe-filters-form-grid {
+  padding: 10px;
+
+  display: grid;
+  grid-template-areas:
+    " recipe-filters-form-recipe-tags   recipe-filters-form-recipe-properties   recipe-filters-form-recipe-ingredients "
+    " .                                 recipe-filters-form-actions             .                                      ";
+  grid-template-rows: 1fr min-content;
+  grid-template-columns: 150px 200px 200px;
+  align-items: start;
+  gap: 10px;
+}
+
+.recipe-filters-form-recipe-user-recipes {
+  grid-area: recipe-filters-form-recipe-user-recipes;
+}
+
+.recipe-filters-form-recipe-favorite-recipes {
+  grid-area: recipe-filters-form-recipe-favorite-recipes;
+}
+
+.recipe-filters-form-recipe-tags {
+  grid-area: recipe-filters-form-recipe-tags;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-filters-form-recipe-author {
+  grid-area: recipe-filters-form-recipe-author;
+}
+
+.recipe-filters-form-recipe-properties {
+  grid-area: recipe-filters-form-recipe-properties;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-filters-form-recipe-name {
+  grid-area: recipe-filters-form-recipe-name;
+}
+
+.recipe-filters-form-recipe-description {
+  grid-area: recipe-filters-form-recipe-description;
+}
+
+.recipe-filters-form-recipe-minimum-servings {
+  grid-area: recipe-filters-form-recipe-minimum-servings;
+}
+
+.recipe-filters-form-recipe-maximum-preparation-time {
+  grid-area: recipe-filters-form-recipe-maximum-preparation-time;
+}
+
+.recipe-filters-form-recipe-maximum-cooking-time {
+  grid-area: recipe-filters-form-recipe-maximum-cooking-time;
+}
+
+.recipe-filters-form-recipe-created-at {
+  grid-area: recipe-filters-form-recipe-created-at;
+}
+
+.recipe-filters-form-recipe-edited-at {
+  grid-area: recipe-filters-form-recipe-edited-at;
+}
+
+.recipe-filters-form-recipe-average-rating {
+  grid-area: recipe-filters-form-recipe-average-rating;
+}
+
+.recipe-filters-form-recipe-ingredients {
+  grid-area: recipe-filters-form-recipe-ingredients;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-filters-form-actions {
+  grid-area: recipe-filters-form-actions;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  * {
+    flex: 1;
+  }
+}

@@ -1,0 +1,54 @@
+<form
+  [formGroup]="ingredientForm"
+  class="recipe-ingredient-form"
+>
+  <mat-label class="recipe-ingredient-name">{{ ingredient.name }}</mat-label>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Quantity</mat-label>
+    <input
+      matInput
+      formControlName="quantity"
+      type="number"
+      name="ingredientQuantity"
+      [value]="ingredient.quantity"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Unit</mat-label>
+    <mat-select
+      formControlName="unitOfMeasure"
+      [value]="ingredient.unitOfMeasure"
+    >
+      <mat-option
+        *ngFor="let unitOfMeasure of availableUnitOfMeasures"
+        [value]="unitOfMeasure"
+      >
+        {{ unitOfMeasure }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="recipe-ingredient-form-actions">
+    <button
+      *ngIf="isEditMode && isMonitorChanges"
+      (click)="updateIngredient(ingredient)"
+      mat-fab
+      color="primary"
+      type="button"
+      [disabled]="!ingredientForm.valid || !isIngredientModified"
+    >
+      <mat-icon>update</mat-icon>
+    </button>
+    <button
+      *ngIf="isEditMode && isRemovable"
+      (click)="removeIngredient(ingredient)"
+      mat-fab
+      color="accent"
+      type="button"
+    >
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+  </div>
+</form>

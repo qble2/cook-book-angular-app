@@ -1,0 +1,68 @@
+<app-page>
+  <div page-header-title>Log in</div>
+  <div page-header-drawer>Log in page-header-drawer</div>
+
+  <div page-content>
+    <div class="login-container-grid">
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="login-form card"
+        [ngClass]="'floating-' + loginForm.status"
+      >
+        <h2>Log in</h2>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            name="username"
+          />
+          <mat-error
+            *ngIf="loginForm.controls['username']?.errors?.['required']"
+          >
+            You must enter a value
+          </mat-error>
+        </mat-form-field>
+
+        <app-password-form-field
+          formControlName="password"
+          label="Password"
+          required
+        >
+          <ng-template #additionalValidationErrors></ng-template>
+        </app-password-form-field>
+
+        <!-- class="primary-color-button filter-brightness-1-1" -->
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!loginForm.valid || (loadingService.loading$ | async)"
+        >
+          Log in
+        </button>
+
+        <app-server-response-error-details
+          [error]="serverResponseError"
+        ></app-server-response-error-details>
+
+        <div style="margin-top: 20px">
+          <span>
+            Don't have an account?
+            <span
+              class="pseudo-anchor"
+              (click)="navigationService.navigateToSignup()"
+            >
+              Sign up
+            </span>
+          </span>
+        </div>
+
+        <!-- close button -->
+        <app-close-card-button></app-close-card-button>
+      </form>
+    </div>
+  </div>
+</app-page>

@@ -1,0 +1,286 @@
+<app-page>
+  <div page-header-title>{{ headerTitle }}</div>
+  <div page-header-drawer>{{ headerTitle }} page-header-drawer</div>
+
+  <div page-content>
+    <div class="create-recipe-stepper-container-grid">
+      <form
+        [formGroup]="recipeForm"
+        class="create-recipe-stepper-form"
+      >
+        <mat-stepper
+          #stepper
+          linear
+          formArrayName="formArray"
+          (selectionChange)="stepChanged($event, stepper)"
+          class="card"
+          [ngClass]="'floating-' + recipeForm.status"
+        >
+          <!-- [stepControl]="formArray?.get([0])!" -->
+          <mat-step
+            formGroupName="0"
+            [stepControl]="propertiesForm"
+          >
+            <ng-template matStepLabel>Properties</ng-template>
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input
+                matInput
+                formControlName="name"
+                name="name"
+              />
+              <mat-error
+                *ngIf="propertiesForm.controls['name']?.errors?.['required']"
+              >
+                You must enter a value
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Description</mat-label>
+              <input
+                matInput
+                formControlName="description"
+                name="description"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Servings</mat-label>
+              <input
+                matInput
+                formControlName="servings"
+                type="number"
+                name="servings"
+              />
+              <mat-error
+                *ngIf="propertiesForm.controls['name']?.errors?.['required']"
+              >
+                You must enter a value
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Preparation time</mat-label>
+              <input
+                matInput
+                formControlName="preparationTime"
+                type="number"
+                name="preparationTime"
+              />
+              <span matSuffix>&nbsp;minutes</span>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Cooking time</mat-label>
+              <input
+                matInput
+                formControlName="cookingTime"
+                type="number"
+                name="cookingTime"
+              />
+              <span matSuffix>&nbsp;minutes</span>
+            </mat-form-field>
+            <!-- $any(formArray?.get([0])).controls['tags'] -->
+            <app-chip-list
+              class="recipe-details-tags"
+              label="Tags"
+              placeholder="New tag..."
+              [parentFormControl]="tagsFormControl"
+              [availableChips]="availableTags"
+              [selectedChips]="tagsFormControl.value"
+            ></app-chip-list>
+            <div style="margin-top: 10px">
+              <button
+                mat-flat-button
+                type="button"
+                color="primary"
+                matStepperNext
+                [disabled]="!propertiesForm.valid"
+              >
+                Next
+              </button>
+            </div>
+            <p>propertiesForm.status: {{ propertiesForm.status }}</p>
+            <p>createRecipeForm.status: {{ recipeForm.status }}</p>
+          </mat-step>
+
+          <!-- [stepControl]="formArray?.get([1])!" -->
+          <mat-step
+            formGroupName="1"
+            [stepControl]="ingredientsFormArray"
+          >
+            <ng-template matStepLabel>Ingredients</ng-template>
+            <ng-container
+              *ngFor="
+                let ingredientFormControl of ingredientsFormArray.controls;
+                let i = index
+              "
+            >
+              <app-recipe-ingredient
+                [isEditMode]="true"
+                [isRemovable]="true"
+                [isMonitorChanges]="false"
+                [ingredient]="ingredientFormControl.value"
+                (ingredientRemovedEvent)="onIngredientRemovedEvent($event, i)"
+              ></app-recipe-ingredient>
+            </ng-container>
+            <!-- add new ingredient -->
+            <app-recipe-add-ingredient
+              [excludedIngredients]="ingredientsFormArray.value"
+              (ingredientAddedEvent)="onIngredientAddedEvent($event)"
+            ></app-recipe-add-ingredient>
+            <!-- <mat-error *ngIf="ingredientsFormArray.errors?.['required']">
+              You must add at least 1 ingredient
+            </mat-error> -->
+            <div style="margin-top: 10px">
+              <button
+                mat-stroked-button
+                type="button"
+                matStepperPrevious
+              >
+                Back
+              </button>
+              <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                matStepperNext
+                [disabled]="!ingredientsFormArray.valid"
+              >
+                Next
+              </button>
+            </div>
+            <p>
+              ingredientsFormArray.status: {{ ingredientsFormArray.status }}
+            </p>
+            <p>createRecipeForm.status: {{ recipeForm.status }}</p>
+          </mat-step>
+
+          <!-- [stepControl]="formArray?.get([2])!" -->
+          <mat-step
+            formGroupName="2"
+            [stepControl]="instructionsFormArray"
+          >
+            <ng-template matStepLabel>Instructions</ng-template>
+            <ng-container
+              *ngFor="
+                let instructionFormControl of instructionsFormArray.controls;
+                let i = index
+              "
+            >
+              <div class="recipe-instruction">
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    name="instruction"
+                    [formControlName]="i"
+                  />
+                </mat-form-field>
+                <div style="display: flex; flex-direction: row; gap: 10px">
+                  <button
+                    (click)="removeInstruction(i)"
+                    mat-fab
+                    color="accent"
+                    type="button"
+                  >
+                    <mat-icon>delete_forever</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+            <!-- add new instruction -->
+            <div class="recipe-instruction-add">
+              <mat-form-field appearance="fill">
+                <mat-label>Instruction</mat-label>
+                <input
+                  type="text"
+                  aria-label="Instruction"
+                  name="newInstruction"
+                  matInput
+                  [formControl]="newInstructionFormControl"
+                  #instruction
+                />
+              </mat-form-field>
+              <button
+                mat-fab
+                color="primary"
+                type="button"
+                (click)="addInstruction(instruction.value)"
+                [disabled]="!newInstructionFormControl.valid"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <!-- <mat-error *ngIf="instructionsFormArray.errors?.['required']">
+              You must add at least 1 instruction
+            </mat-error> -->
+            <div style="margin-top: 10px">
+              <button
+                mat-stroked-button
+                type="button"
+                matStepperPrevious
+              >
+                Back
+              </button>
+              <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                matStepperNext
+                [disabled]="!instructionsFormArray.valid"
+              >
+                Next
+              </button>
+            </div>
+            <p>
+              instructionsFormArray.status: {{ instructionsFormArray.status }}
+            </p>
+            <p>createRecipeForm.status: {{ recipeForm.status }}</p>
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel>Recap</ng-template>
+            <!-- TODO BKE recap -->
+            <pre><p>RECAP NOT IMPLEMENTED!</p></pre>
+            <pre><p>{{ recipeForm.value | json }}</p></pre>
+            <div class="form-actions">
+              <button
+                mat-stroked-button
+                type="button"
+                matStepperPrevious
+              >
+                Back
+              </button>
+              <button
+                (click)="submit()"
+                mat-raised-button
+                color="primary"
+                class="width-100"
+                type="submit"
+                [disabled]="
+                  !recipeForm.valid || (loadingService.loading$ | async)
+                "
+              >
+                {{ submitFormButtonText }}
+              </button>
+              <span class="flex-expand"></span>
+              <!-- (click)="stepper.reset();" -->
+              <button
+                (click)="resetStepper()"
+                mat-raised-button
+                color="accent"
+                class="width-100"
+                type="button"
+                [disabled]="loadingService.loading$ | async"
+              >
+                Reset
+              </button>
+            </div>
+
+            <app-server-response-error-details
+              [error]="serverResponseError"
+            ></app-server-response-error-details>
+          </mat-step>
+        </mat-stepper>
+      </form>
+    </div>
+  </div>
+</app-page>

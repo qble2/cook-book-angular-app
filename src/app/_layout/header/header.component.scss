@@ -1,0 +1,30 @@
+.header {
+  padding-left: 16px;
+  background-color: var(--tealblue-color);
+
+  // tells the browser to account for any border and padding in the values you specify for an element's width and height
+  // needed to make position: sticky work correctly
+  box-sizing: border-box;
+
+  position: fixed;
+  top: var(--header-toolbar-height);
+  z-index: 99;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  min-height: var(--component-header-height);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-drawer {
+  display: none;
+  height: calc(100vh - var(--component-header-height));
+  overflow-y: auto;
+}

@@ -1,0 +1,44 @@
+<form
+  [formGroup]="newIngredientForm"
+  class="add-recipe-ingredient-form"
+>
+  <app-ingredient-autocomplete-form-field
+    [parentFormControl]="$any(newIngredientForm).controls['ingredient']"
+    [isRequired]="true"
+    [excludedIngredients]="excludedIngredients"
+    (ingredientSelectedEvent)="onIngredientSelectedEvent($event)"
+  ></app-ingredient-autocomplete-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Quantity</mat-label>
+    <input
+      matInput
+      formControlName="quantity"
+      type="number"
+      name="quantity"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Unit</mat-label>
+    <mat-select formControlName="unitOfMeasure">
+      <mat-option
+        *ngFor="let availableUnitOfMeasure of availableUnitOfMeasures"
+        [value]="availableUnitOfMeasure"
+      >
+        {{ availableUnitOfMeasure }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button
+    (click)="addIngredient()"
+    mat-fab
+    color="primary"
+    type="button"
+    [disabled]="!newIngredientForm.valid"
+  >
+    <mat-icon>add</mat-icon>
+    <!-- <ng-content></ng-content> filled by parent -->
+  </button>
+</form>

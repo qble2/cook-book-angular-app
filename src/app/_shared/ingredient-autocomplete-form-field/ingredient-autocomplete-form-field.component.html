@@ -1,0 +1,29 @@
+<mat-form-field appearance="fill">
+  <mat-label>Ingredient</mat-label>
+  <input
+    matInput
+    name="ingredient"
+    #ingredientInput
+    [formControl]="parentFormControl"
+    [required]="isRequired"
+    type="text"
+    placeholder="Select one"
+    aria-label="Ingredient"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onIngredientOptionSelected($event.option.value)"
+    [displayWith]="displayIngredientOptionFn"
+  >
+    <mat-option
+      *ngFor="let availableIngredient of filteredAvailableIngredients$ | async"
+      [value]="availableIngredient"
+    >
+      {{ availableIngredient.name }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="parentFormControl.errors?.['requireMatch']">
+    You must select a value
+  </mat-error>
+</mat-form-field>

@@ -1,0 +1,58 @@
+<ng-container *ngIf="recipe">
+  <div class="recipe-details-header">
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <button
+        *ngIf="isFavorited; else addToFavorites"
+        mat-icon-button
+        (click)="removeRecipeFromFavorites()"
+        type="button"
+      >
+        <mat-icon>star</mat-icon>
+      </button>
+      <ng-template #addToFavorites>
+        <button
+          mat-icon-button
+          (click)="addRecipeToFavorites()"
+          type="button"
+        >
+          <mat-icon>star_border</mat-icon>
+        </button>
+      </ng-template>
+    </ng-container>
+
+    <mat-label class="recipe-name">{{ recipe.name }}</mat-label>
+
+    <span class="flex-expand"></span>
+
+    <!-- <ng-container *ngIf="recipeService.isLoggedInRecipeAuthor(recipe)">
+      <button
+        *ngIf="isEditMode; else editRecipeId"
+        mat-flat-button
+        type="button"
+        color="primary"
+        (click)="saveRecipe()"
+        [disabled]="isDisabled">
+        save
+      </button>
+      <ng-template #editRecipeId>
+        <button mat-stroked-button (click)="editRecipe()">edit</button>
+      </ng-template>
+    </ng-container> -->
+    <ng-container *ngIf="recipeService.isLoggedInRecipeAuthor(recipe)">
+      <button
+        *ngIf="!isEditMode"
+        mat-stroked-button
+        (click)="navigationService.navigateToRecipeDetailsEdit(recipe)"
+      >
+        edit
+      </button>
+      <button
+        *ngIf="!isEditMode"
+        mat-stroked-button
+        (click)="navigationService.navigateToEditRecipeStepper(recipe)"
+      >
+        edit (stepper)
+      </button>
+    </ng-container>
+  </div>
+</ng-container>
