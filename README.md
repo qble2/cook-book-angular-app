@@ -1,3 +1,7 @@
+>*Disclaimer:* 
+>- *This project main purpose was a learning experience to tackle Angular framework.*
+>- *It may contain unpolished code that needs to be refactored and modernized.*
+
 # Cook Book Angular App
 
 An [Angular](https://angular.io) web application that consumes the REST API found [here.](https://github.com/qble2/cook-book-spring-app)
