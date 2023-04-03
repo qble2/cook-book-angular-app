@@ -4,7 +4,7 @@
 
 # Cook Book Angular App
 
-An [Angular](https://angular.io) web application that consumes the REST API found [here.](https://github.com/qble2/cook-book-spring-app)
+An [Angular](https://angular.io) web application that consumes the REST API found [here.](https://github.com/qble2/cook-book-spring-app), allowing users to browse and create cooking recipes, through a modern user interface.
 
 ## Built with:
 - [Angular 14](https://angular.io)
