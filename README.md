@@ -7,6 +7,23 @@
 An [Angular](https://angular.io) web application that consumes the REST API found [here.](https://github.com/qble2/cook-book-spring-app).  
 This application consumes a Java REST API and allows users to browse and create cooking recipes, through a modern user interface.
 
+This application implements:
+- A [JWT](https://jwt.io)-based authentication process
+- [Http Interceptors](https://angular.io/api/common/http/HttpInterceptor)  
+- Route Guards  
+- [Reactive forms](https://angular.io/guide/reactive-forms)  
+- [Validations](https://angular.io/api/forms/Validators)  
+
+## Features:
+This application allows a user to:
+- Sign up
+- Sign in
+- Browse recipes
+- Filter recipes
+- Create recipes
+- Update recipes
+- Rate recipes
+
 ## Built with:
 - [Angular 14](https://angular.io)
 - [Angular Material](https://material.angular.io)
